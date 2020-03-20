@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import './App.css';
 import axios from "axios";
+import Cards from "././Cards";
 
 
 const App = () => {
@@ -18,17 +19,27 @@ const App = () => {
   useEffect(() =>{
     axios.get(proxy+url)
     .then(response =>{
-      console.log(response);
-      // setData(response.data);
+      console.log(response.data.results);
+      setData(response.data.results);
+      // console.log(response);
     })
     .catch(error => {console.log('Where is the data', error)
   })
   }, [])
 
-
+  // if (!data) return <h3>Loading...</h3>;
   return (
     <div className="App">
       <h1 className="Header">React Wars</h1>
+      {!data ?<h3>Loading...</h3>:
+      data.map((item,index)=>{
+        return <Cards 
+        name={item.name}
+        height={item.height}
+        mass={item.mass}
+      />
+      })}
+     
     </div>
   );
 }
